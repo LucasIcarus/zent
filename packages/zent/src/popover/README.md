@@ -14,7 +14,7 @@
 ### 代码演示
 
 :::demo 基本使用方式
-```js
+```jsx
 import { Popover, Button } from 'zent';
 
 ReactDOM.render(
@@ -37,7 +37,7 @@ ReactDOM.render(
 :::
 
 :::demo 外部控制打开／关闭
-```js
+```jsx
 import { Popover, Button } from 'zent';
 
 class PopoverDemo extends Component {
@@ -116,7 +116,8 @@ isOutside 的 `data` 包含两个属性：`contentNode` 和 `triggerNode`。
 | --------- | ---------------------------------------- | -------------------- | ------------- |
 | showDelay | 可选, 打开弹层前的延迟（单位毫秒）, 如果在这段时间内鼠标移出弹层范围, 弹层不会打开   | number   | `150`  |
 | hideDelay | 可选, 关闭弹层前的延迟（单位毫秒）, 如果在这段时间内鼠标重新移入弹层范围, 弹层不会关闭 | number    | `150` |
-| isOutside | 可选, 判断一个节点是否在‘外面’。默认trigger和弹层以外的节点都是‘外面’  | func: (node, data) => bool |  |
+| isOutside | 可选, 判断一个节点是否在‘外面’。默认 trigger 和弹层以外的节点都是‘外面’  | func: (node, data) => bool |  |
+| quirk | 可选，quirk 模式，该模式下触发关闭时不要求鼠标先从 trigger 和弹层里面出去 | bool | `false` |
 
 isOutside 的 `data` 包含两个属性：`contentNode` 和 `triggerNode`。
 
@@ -160,7 +161,7 @@ LeftBottom                                                          RightBottom
 
 每个定位算法的对象上都有一个 `locate` 函数，通过这个函数可以实现定位算法的组合。
 
-```js
+```jsx
 Popover.Position.create((anchorBoundingBox, containerBoundingBox, contentDimension, options) => {
   if (someCondition) {
 	  return Popover.Position.BottomLeft.locate(anchorBoundingBox, containerBoundingBox, contentDimension, options);
@@ -174,7 +175,7 @@ Popover.Position.create((anchorBoundingBox, containerBoundingBox, contentDimensi
 
 通过这个工厂函数创建自定义的 position, 这个函数接受一个函数作为参数，示例：
 
-```js
+```jsx
 // a bounding box is an object with these fields: {top, left, right, bottom, width, height}
 const position = Popover.Position.create((anchorBoundingBox, containerBoundingBox, contentDimension, options) => {
   return {
@@ -218,7 +219,7 @@ anchor 是指 trigger，container 是指离弹层最近的有定位的父节点�
 
 示例：
 
-```js
+```jsx
 // 点击close按钮可以关闭弹层
 const HoverContent = withPopover(function HoverContent({ popover }) {
   return (

@@ -20,9 +20,11 @@ if [ -z "$CHANGELOG_GITHUB_TOKEN" ] ; then
     fail 'You must set CHANGELOG_GITHUB_TOKEN environment variable\nhttps://github.com/skywinder/github-changelog-generator#github-token'
 fi
 
+# 安装依赖，以防有人修改依赖
+yarn
+
 # 重新bootstrap，以防有人改了依赖
-$basepath/../lerna clean --yes
-$basepath/../lerna bootstrap
+yarn bootstrap
 
 $basepath/../lerna publish --exact "$@"
 
@@ -39,4 +41,4 @@ github_changelog_generator \
 
 git add $basepath/../packages/zent/CHANGELOG.md
 git commit -m "doc: update change log (publish)"
-git push
+git push --no-verify

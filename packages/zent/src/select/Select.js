@@ -2,7 +2,7 @@
  * Select
  */
 
-import React, { Component } from 'react';
+import React, { Component, PureComponent, Children } from 'react';
 import assign from 'lodash/assign';
 import omit from 'lodash/omit';
 import cloneDeep from 'lodash/cloneDeep';
@@ -17,13 +17,13 @@ import SimpleTrigger from './triggers/SimpleTrigger';
 import SelectTrigger from './triggers/SelectTrigger';
 import InputTrigger from './triggers/InputTrigger';
 import TagsTrigger from './triggers/TagsTrigger';
-import { KEY_ESC, KEY_EN, KEY_UP, KEY_DOWN } from './constants';
+import { KEY_ESC } from './constants';
 
-class Select extends Component {
+class Select extends (PureComponent || Component) {
   constructor(props) {
     super(props);
 
-    let data = [];
+    let data = this.uniformData(props);
 
     /**
      * data支持字符串数组和对象数组两种模式
@@ -33,26 +33,6 @@ class Select extends Component {
      *
      * @return {object}
      */
-
-    if (props.children) {
-      let children = props.children;
-      if (!isArray(children)) {
-        children = [children];
-      }
-      data = children.map(item => {
-        let value = item.props.value;
-        value = typeof value === 'undefined' ? item : value;
-        return assign({}, item.props, {
-          value,
-          text: item.props.children
-        });
-      });
-    }
-
-    // props.data会将子元素覆盖
-    if (props.data) {
-      data = props.data;
-    }
 
     if (props.simple) {
       this.trigger = SimpleTrigger;
@@ -83,21 +63,11 @@ class Select extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let { open } = this.state;
+    let data = this.uniformData(nextProps);
     // 重置组件data
-    open = nextProps.open || this.focus;
-    let nextState = { ...nextProps, open };
     let selectedItems = [];
-    if (
-      nextProps.data === this.state.data &&
-      nextProps.value === this.state.value &&
-      nextProps.index === this.state.index
-    )
-      return;
-    if (`${nextProps.value}` || `${nextProps.index}`) {
-      this.state.selectedItem = this.props.selectedItem;
-    }
-    this.formateData(nextProps.data, nextProps);
+
+    this.formateData(data, nextProps);
     if (isArray(nextProps.value)) {
       this.sourceData.forEach(item => {
         if (nextProps.value.indexOf(item.value) > -1) {
@@ -105,9 +75,30 @@ class Select extends Component {
         }
       });
     }
-    nextState.selectedItem = this.state.selectedItem;
-    nextState.selectedItems = selectedItems;
-    this.setState(nextState);
+    this.setState({
+      selectedItems
+    });
+  }
+
+  // 统一children和data中的数据
+  uniformData(props) {
+    let data = [];
+    if (props.children) {
+      data = Children.map(props.children, item => {
+        let value = item.props.value;
+        value = typeof value === 'undefined' ? item : value;
+        return assign({}, item.props, {
+          value,
+          text: item.props.children
+        });
+      });
+    }
+
+    // props.data会将子元素覆盖
+    if (props.data) {
+      data = props.data;
+    }
+    return data;
   }
 
   // 对data进行处理，增加cid
@@ -254,15 +245,6 @@ class Select extends Component {
       this.setState({
         open: false
       });
-    } else if ([KEY_EN, KEY_UP, KEY_DOWN].indexOf(code) > -1) {
-      ev.preventDefault();
-      this.setState({
-        keyCode: code
-      });
-    } else {
-      this.setState({
-        keyCode: code
-      });
     }
   }
 
@@ -282,7 +264,6 @@ class Select extends Component {
       selectedItem = {},
       extraFilter,
       open,
-      keyCode,
       keyword = null
     } = this.state;
 
@@ -310,23 +291,23 @@ class Select extends Component {
           onChange={this.triggerChangeHandler}
           onDelete={this.triggerDeleteHandler}
         />
-        <Popup
-          cid={cid}
-          prefixCls={prefixCls}
-          data={this.sourceData}
-          selectedItems={selectedItems}
-          extraFilter={extraFilter}
-          searchPlaceholder={searchPlaceholder}
-          emptyText={emptyText}
-          keyCode={keyCode}
-          keyword={keyword}
-          open={open}
-          filter={filter}
-          onAsyncFilter={onAsyncFilter}
-          onChange={this.optionChangedHandler}
-          onFocus={this.popupFocusHandler}
-          onBlur={this.popupBlurHandler}
-        />
+        {open
+          ? <Popup
+              cid={cid}
+              prefixCls={prefixCls}
+              data={this.sourceData}
+              selectedItems={selectedItems}
+              extraFilter={extraFilter}
+              searchPlaceholder={searchPlaceholder}
+              emptyText={emptyText}
+              keyword={keyword}
+              filter={filter}
+              onAsyncFilter={onAsyncFilter}
+              onChange={this.optionChangedHandler}
+              onFocus={this.popupFocusHandler}
+              onBlur={this.popupBlurHandler}
+            />
+          : ''}
       </div>
     );
   }

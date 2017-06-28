@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+
 module.exports = {
   'zh-CN': [
     {
@@ -19,6 +21,26 @@ module.exports = {
               title: '更新日志',
               path: 'guides/changelog',
               component: require('../../packages/zent/CHANGELOG.md')
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      name: '升级指南',
+      groups: [
+        {
+          list: [
+            {
+              title: '2.1.x 升级指南',
+              path: 'migrating/21x',
+              component: require('../../packages/zent/docs/migrating-2.1.md')
+            },
+            {
+              title: '3.x 升级指南',
+              path: 'migrating/3x',
+              component: require('../../packages/zent/docs/migrating-2-3.md')
             }
           ]
         }
@@ -52,6 +74,11 @@ module.exports = {
               component: require('../../packages/zent/src/alert/README.md')
             },
             {
+              path: 'component/badge',
+              title: 'Badge 徽标数',
+              component: require('../../packages/zent/src/badge/README.md')
+            },
+            {
               path: 'component/dialog',
               title: 'Dialog 对话框',
               component: require('../../packages/zent/src/dialog/README.md')
@@ -75,6 +102,16 @@ module.exports = {
               path: 'component/sweet-alert',
               title: 'SweetAlert',
               component: require('../../packages/zent/src/sweetalert/README.md')
+            },
+            {
+              path: 'component/swiper',
+              title: 'Swiper 轮播',
+              component: require('../../packages/zent/src/swiper/README.md')
+            },
+            {
+              path: 'component/tag',
+              title: 'Tag 标签',
+              component: require('../../packages/zent/src/tag/README.md')
             }
           ]
         },
@@ -87,9 +124,24 @@ module.exports = {
               component: require('../../packages/zent/src/button/README.md')
             },
             {
+              path: 'component/cascader',
+              title: 'Cascader 级联选择',
+              component: require('../../packages/zent/src/cascader/README.md')
+            },
+            {
               path: 'component/checkbox',
               title: 'Checkbox 多选',
               component: require('../../packages/zent/src/checkbox/README.md')
+            },
+            {
+              path: 'component/colorpicker',
+              title: 'ColorPicker 颜色选择器',
+              component: require('../../packages/zent/src/colorpicker/README.md')
+            },
+            {
+              path: 'component/copy-btn',
+              title: 'CopyButton 复制按钮',
+              component: require('../../packages/zent/src/copy-button/README.md')
             },
             {
               path: 'component/datepicker',
@@ -107,9 +159,19 @@ module.exports = {
               component: require('../../packages/zent/src/input/README.md')
             },
             {
+              path: 'component/number-input',
+              title: 'NumberInput 数值输入框',
+              component: require('../../packages/zent/src/number-input/README.md')
+            },
+            {
               path: 'component/radio',
               title: 'Radio 单选',
               component: require('../../packages/zent/src/radio/README.md')
+            },
+            {
+              path: 'component/search-input',
+              title: 'SearchInput 搜索框',
+              component: require('../../packages/zent/src/search-input/README.md')
             },
             {
               path: 'component/select',
@@ -125,12 +187,22 @@ module.exports = {
               path: 'component/switch',
               title: 'Switch 开关',
               component: require('../../packages/zent/src/switch/README.md')
+            },
+            {
+              path: 'component/upload',
+              title: 'Upload 图片上传',
+              component: require('../../packages/zent/src/upload/README.md')
             }
           ]
         },
         {
           groupName: '导航',
           list: [
+            {
+              path: 'component/affix',
+              title: 'Affix 固钉',
+              component: require('../../packages/zent/src/affix/README.md')
+            },
             {
               path: 'component/breadcrumb',
               title: 'Breadcrumb 面包屑',

@@ -11,7 +11,7 @@
 ### 代码示例
 
 :::demo 三种触发方式: 点击，鼠标移入，获得输入焦点
-```js
+```jsx
 import { Pop, Button, Input } from 'zent';
 
 ReactDOM.render(
@@ -32,7 +32,7 @@ ReactDOM.render(
 :::
 
 :::demo 12种定位
-```js
+```jsx
 import { Pop, Button } from 'zent';
 
 const trigger = 'hover';
@@ -92,7 +92,7 @@ ReactDOM.render(
 某些情况下`Pop` 的 trigger 特别小，但是 `Pop` 气泡的小三角距离弹层边缘的距离又是固定的，此时小三角可能会出现在 trigger 外面。`Pop` 提供了一个参数 `centerArrow` 来处理这种情况，`centerArrow` 为 `true` 的时候，气泡的小三角永远居中对齐于 trigger，不就不会出现小三角跑到外面的情况了。
 
 :::demo 使用 `centerArrow` 来控制气泡小三角的位置
-```js
+```jsx
 import { Pop, Button, Input } from 'zent';
 
 ReactDOM.render(
@@ -110,14 +110,14 @@ ReactDOM.render(
 :::
 
 :::demo Confirm 形式的气泡提示
-```js
-import { Pop, Sweetalert } from 'zent';
+```jsx
+import { Pop, Sweetalert, Button } from 'zent';
 
 ReactDOM.render(
 	<Pop 
 		trigger="click"
 		content="提示内容"
-		onConfirm={() => Sweetalert.alert('Pop关闭了')}
+		onConfirm={() => Sweetalert.alert({ content: 'Pop关闭了' })}
 	>
 		<Button type="primary">打开气泡</Button>
 	</Pop>
@@ -127,8 +127,8 @@ ReactDOM.render(
 :::
 
 :::demo 自定义 Confirm 形式的气泡提示按钮
-```js
-import { Pop, Sweetalert } from 'zent';
+```jsx
+import { Pop, Sweetalert, Button } from 'zent';
 
 ReactDOM.render(
 	<Pop 
@@ -137,7 +137,7 @@ ReactDOM.render(
 		type="danger"
 		confirmText="Error"
 		cancelText="Close"
-		onConfirm={() => Sweetalert.alert('Pop关闭了')}
+		onConfirm={() => Sweetalert.alert({ content: 'Pop关闭了' })}
 	>
 		<Button type="primary">打开气泡</Button>
 	</Pop>
@@ -147,8 +147,8 @@ ReactDOM.render(
 :::
 
 :::demo 延迟打开／关闭
-```js
-import { Pop } from 'zent';
+```jsx
+import { Pop, Button } from 'zent';
 
 class Controlled extends Component {
 	state = {
@@ -193,8 +193,8 @@ ReactDOM.render(
 除了外部代码控制 `Pop` 的显示外，trigger 在条件满足的情况下也会触发打开／关闭，这时候必须通知外部修改 `visible`。
 
 :::demo 高级用法：外部控制显示隐藏
-```js
-import { Pop } from 'zent';
+```jsx
+import { Pop, Button } from 'zent';
 
 class NoneTriggerDemo extends Component {
   state = {
@@ -242,6 +242,29 @@ ReactDOM.render(
 ```
 :::
 
+:::demo withPop 高阶组件
+```jsx
+import { Pop, Button } from 'zent';
+
+// 点击close按钮可以关闭弹层
+const Content = Pop.withPop(function Content({ pop }) {
+  return (
+    <div>
+      <div>Pop 内容</div>
+      <Button onClick={pop.close}>关闭</Button>
+    </div>
+  );
+});
+
+ReactDOM.render(
+	<Pop trigger="click" content={<Content />}>
+		<Button type="primary">打开</Button>
+	</Pop>
+	, mountNode
+);
+```
+:::
+
 ### API
 
 | 参数 | 说明 | 类型 | 默认值 | 备选值 |
@@ -283,10 +306,20 @@ ReactDOM.render(
 | mouseEnterDelay | hover打开的延迟（单位：毫秒） | number | `200` |
 | mouseLeaveDelay | 关闭的的延迟（单位：毫秒） | number | `200` |
 | isOutside | 用来判断点击目标是否在外面的可选函数 | func | |
+| quirk | 开启 Popover 的 quirk 模式，该模式下判断关闭条件时不需要先从内部移动出去 | bool | `true` |
 
 #### None
 
 这种模式下 `onConfirm` 和 `onCancel` 不会自动关闭Pop, 需要使用者自己在回调中控制 `visible` 来关闭Pop.
+
+#### withPop 高阶组件
+
+这个高阶组件暴露了 `Pop` 内部的几个重要方法, 可能的使用场景: 在 `content` 内部手动关闭弹层.
+
+| 参数             | 说明                    | 类型               |
+| -------------- | --------------------- | ---------------- |
+| open           | 打开 Pop                  | func             |
+| close          | 关闭 Pop                  | func             |
 
 ### FAQ
 

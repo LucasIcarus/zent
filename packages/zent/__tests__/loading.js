@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import Loading from 'loading';
+import { getElementLeft, getElementTop } from 'loading/getPosition';
 
 /* eslint-disable */
 beforeAll(() => {
@@ -45,9 +46,9 @@ describe('Loading', () => {
     wrapper.unmount();
   });
 
-  it('Loading has dynamic model(static = false).', () => {
+  it('Loading has floating model.', () => {
     const wrapper = mount(
-      <Loading show={false} static={false}>
+      <Loading show={false} float>
         <span className="foo" />
       </Loading>
     );
@@ -58,5 +59,23 @@ describe('Loading', () => {
     wrapper.setProps({ show: false });
     wrapper.setProps({ show: true });
     wrapper.unmount();
+  });
+
+  it('find element offset', () => {
+    const tree = {
+      offsetLeft: 1,
+      offsetTop: 10,
+      offsetParent: {
+        offsetLeft: 2,
+        offsetTop: 20,
+        offsetParent: {
+          offsetLeft: 3,
+          offsetTop: 30,
+          offsetParent: null
+        }
+      }
+    };
+    expect(getElementLeft(tree)).toBe(6);
+    expect(getElementTop(tree)).toBe(60);
   });
 });

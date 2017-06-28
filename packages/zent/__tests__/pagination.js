@@ -42,22 +42,58 @@ describe('Pagination', () => {
   });
 
   it('Pagination has type check(pageSize) and will throw error handled by react or outside', () => {
-    // HACK: console.error
-    // expect(() => {
-    //   mount(<Pagination totalItem={1000} pageSize={-10} current={1} maxPageToshow={100} />);
-    // }).not.toThrow();
-    // expect(() => {
-    //   mount(<Pagination totalItem={1000} pageSize={'foo'} current={1} maxPageToshow={100} />);
-    // }).toThrow();
-    // expect(() => {
-    //   mount(<Pagination totalItem={1000} pageSize={[]} current={1} maxPageToshow={100} />);
-    // }).toThrow();
-    // expect(() => {
-    //   mount(<Pagination totalItem={1000} pageSize={[10, 'foo']} current={1} maxPageToshow={100} />);
-    // }).not.toThrow();
-    // expect(() => {
-    //   mount(<Pagination totalItem={1000} pageSize={[10, 'foo']} current={1} maxPageToshow={100} />);
-    // }).not.toThrow();
+    // HACK
+    expect(() => {
+      mount(
+        <Pagination
+          totalItem={1000}
+          pageSize={-10}
+          current={1}
+          maxPageToshow={100}
+        />
+      );
+    }).not.toThrow();
+    expect(() => {
+      mount(
+        <Pagination
+          totalItem={1000}
+          pageSize={'foo'}
+          current={1}
+          maxPageToshow={100}
+        />
+      );
+    }).toThrow();
+    expect(() => {
+      mount(
+        <Pagination
+          totalItem={1000}
+          pageSize={[]}
+          current={1}
+          maxPageToshow={100}
+        />
+      );
+    }).toThrow();
+    expect(() => {
+      mount(
+        <Pagination
+          totalItem={1000}
+          pageSize={[10, 'foo']}
+          current={1}
+          maxPageToshow={100}
+        />
+      );
+    }).not.toThrow();
+    expect(() => {
+      mount(
+        <Pagination
+          totalItem={1000}
+          pageSize={[10, 'foo']}
+          current={1}
+          maxPageToshow={100}
+        />
+      );
+    }).not.toThrow();
+
     expect(() => {
       mount(
         <Pagination
@@ -165,6 +201,9 @@ describe('Pagination', () => {
     wrapper.setProps({ pageSize: 10 });
     expect(wrapper.prop('current')).toBe(2);
     expect(wrapper.state('currentPageSize')).toBe(10);
+
+    wrapper.find('Prefix').node.changePageSize(null, { text: '20' });
+    expect(wrapper.state('currentPageSize')).toBe(20);
   });
 
   it('Pagination has its core function, change current page with click on Pager or change on Jumper', () => {

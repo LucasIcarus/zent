@@ -10,7 +10,7 @@
 ### 代码演示
 
 :::demo 基础用法
-```js
+```jsx
 import { Sweetalert, Button } from 'zent';
 
 const showAlertInfo = () => {
@@ -28,8 +28,8 @@ ReactDOM.render(
 :::
 
 
-:::demo 含有确认按钮与取消按钮的 SweetAlert
-```js
+:::demo 含有确定按钮与取消按钮的 SweetAlert
+```jsx
 import { Sweetalert, Button } from 'zent';
 
 const onConfirm = () => {
@@ -57,7 +57,7 @@ ReactDOM.render(
 
 
 :::demo 通过代码自动关闭对话框
-```js
+```jsx
 import { Sweetalert, Button } from 'zent';
 
 const autoCloseConfirm = () => {
@@ -76,13 +76,13 @@ ReactDOM.render(
 :::
 
 
-:::demo 可以自动关闭的对话框（Promise）点击确认按钮，按钮会变成loading状态，三秒后关闭
-```js
+:::demo 可以自动关闭的对话框（Promise）点击定按钮，按钮会变成loading状态，三秒后关闭
+```jsx
 import { Sweetalert, Button } from 'zent';
 
 const promiseConfirm = () => {
 	Sweetalert.confirm({
-		content: '点击确认按钮，按钮会变成loading状态，三秒后关闭',
+		content: '点击确定按钮，按钮会变成loading状态，三秒后关闭',
 		title: 'onConfirm返回Promise',
 		onConfirm: () => new Promise((resolve) => {
 			setTimeout(() => {
@@ -101,7 +101,7 @@ ReactDOM.render(
 
 
 :::demo 含有图标的 SweetAlert
-```js
+```jsx
 import { Sweetalert, Button } from 'zent';
 
 const showAlertInfo = () => {
@@ -120,8 +120,8 @@ ReactDOM.render(
 :::
 
 
-:::demo 确认按钮类型
-```js
+:::demo 确定按钮类型
+```jsx
 import { Sweetalert, Button } from 'zent';
 
 const showAlertInfo = () => {
@@ -129,7 +129,7 @@ const showAlertInfo = () => {
 		confirmType: 'danger',
 		confirmText: '删除',
 		content: '确认删除吗？',
-		title: '确认'
+		title: '请确认'
 	});
 }
 
@@ -150,9 +150,9 @@ ReactDOM.render(
 | content     | 弹窗中的内容                              | node   |    -      |                                               |
 | type        | 弹窗的类型, 设置会在title左边显示一个小图标, 不传不会显示图标 | string |    -    | `'info'`, `'success'`, `'error'`, `'warning'` |
 | title       | 弹窗的标题                               | node   | `''`     |                                               |
-| onConfirm   | 确认操作回调函数                            | func   | `noop`   |                                               |
-| confirmText | 确认按钮文案                              | string | `'取消'`   |                                               |
-| confirmType | 确认按钮的类型  | string | `'primary'` | `'default'`、`'primary'`、`'danger'`、`'success'` |
+| onConfirm   | 确定操作回调函数                            | func   | `noop`   |                                               |
+| confirmText | 确定按钮文案                              | string | `'取消'`   |                                               |
+| confirmType | 确定按钮的类型  | string | `'primary'` | `'default'`、`'primary'`、`'danger'`、`'success'` |
 | className   | 额外的className                        | string | `''`     |                                               |
 | prefix      | 默认className的前缀                      | string | `'zent'`|     |
 
@@ -164,10 +164,10 @@ ReactDOM.render(
 | type        | 弹窗的类型, 设置会在title左边显示一个小图标, 不传不会显示图标 | string |   -   | `'info'`, `'success'`, `'error'`, `'warning'` |
 | title       | 弹窗的标题                               | node   | `''`     |                                               |
 | onCancel    | 取消操作回调函数                            | func   | `noop`   |                                               |
-| onConfirm   | 确认操作回调函数                            | func   | `noop`   |                                               |
+| onConfirm   | 确定操作回调函数                            | func   | `noop`   |                                               |
 | cancelText  | 取消按钮文案                              | string | `'取消'`   |                                               |
-| confirmText | 确认按钮文案                              | string | `'确认'`   |                                               |
-| confirmType | 确认按钮的类型  | string | `'primary'` | `'default'`、`'primary'`、`'danger'`、`'success'` |
+| confirmText | 确定按钮文案                              | string | `'确定'`   |                                               |
+| confirmType | 确定按钮的类型  | string | `'primary'` | `'default'`、`'primary'`、`'danger'`、`'success'` |
 | className   | 额外的className                        | string | `''`     |                                               |
 | prefix      | 默认className的前缀                      | string | `'zent'` |                                               |
 

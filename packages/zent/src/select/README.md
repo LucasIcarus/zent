@@ -24,7 +24,7 @@
 ### 代码演示
 
 :::demo 基础用法
-```js
+```jsx
 import { Select } from 'zent';
 
 const Option = Select.Option;
@@ -40,8 +40,25 @@ ReactDOM.render(
 ```
 :::
 
+:::demo 支持默认选项
+```jsx
+import { Select } from 'zent';
+
+const Option = Select.Option;
+
+ReactDOM.render(
+  <Select value="1">
+    <Option value="1">选项一</Option>
+    <Option value="2">选项二</Option>
+    <Option value="3">选项三</Option>
+  </Select>
+  , mountNode
+);
+```
+:::
+
 :::demo 支持数组类型选项
-```js
+```jsx
 import { Select } from 'zent';
 
 const data = ['选项一', '选项二', '选项三'];
@@ -54,7 +71,7 @@ ReactDOM.render(
 :::
 
 :::demo 支持对象形式的选项文案与选项值
-```js
+```jsx
 import { Select } from 'zent';
 
 const data = [
@@ -71,7 +88,7 @@ ReactDOM.render(
 :::
 
 :::demo 支持自定义文案与值对应的key
-```js
+```jsx
 import { Select } from 'zent';
 
 const data = [
@@ -92,7 +109,7 @@ ReactDOM.render(
 :::
 
 :::demo 支持键盘上下方向键选择选项
-```js
+```jsx
 import { Select } from 'zent';
 
 const data = [
@@ -113,7 +130,7 @@ ReactDOM.render(
 :::
 
 :::demo 支持选项改变后的回调
-```js
+```jsx
 import { Select, Dialog } from 'zent';
 
 const data = [
@@ -141,7 +158,7 @@ ReactDOM.render(
 :::
 
 :::demo 支持禁用选项组件
-```js
+```jsx
 import { Select } from 'zent';
 
 const data = [
@@ -163,7 +180,7 @@ ReactDOM.render(
 :::
 
 :::demo 支持过滤功能
-```js
+```jsx
 import { Select } from 'zent';
 
 const data = [
@@ -185,7 +202,7 @@ ReactDOM.render(
 :::
 
 :::demo 支持自定义搜索框文案
-```js
+```jsx
 import { Select } from 'zent';
 
 const data = [
@@ -208,7 +225,7 @@ ReactDOM.render(
 :::
 
 :::demo 支持自定义无选项文案
-```js
+```jsx
 import { Select } from 'zent';
 
 const data = [
@@ -231,22 +248,18 @@ ReactDOM.render(
 :::
 
 :::demo 支持输入搜索
-```js
+```jsx
 import { Select } from 'zent';
 
-const data = [
-     {id: 1, name: '选项一'},
-     {id: 2, name: '选项二'},
-     {id: 3, name: '选项三'}
-];
+const data = [1, 2, 3];
 
 ReactDOM.render(
   <Select
-    data={data}
-    optionValue="id"
-    optionText="name"
+    data={[1, 2, 3]}
     search
-    filter={(item, keyword) => item.name.indexOf(keyword) > -1}
+    filter={(item, keyword) => {
+      return `${item.value}` === `${keyword}`;
+    }}
   />
   , mountNode
 );
@@ -254,7 +267,7 @@ ReactDOM.render(
 :::
 
 :::demo 支持多选标签
-```js
+```jsx
 import { Select } from 'zent';
 
 const data = [
@@ -276,12 +289,35 @@ ReactDOM.render(
 ```
 :::
 
+:::demo 支持多选默认选项
+```jsx
+import { Select } from 'zent';
+
+const data = [
+     {id: 1, name: '选项一'},
+     {id: 2, name: '选项二'},
+     {id: 3, name: '选项三'}
+];
+
+ReactDOM.render(
+  <Select value={[1, 2]}
+    data={data}
+    optionValue="id"
+    optionText="name"
+    tags
+    filter={(item, keyword) => item.name.indexOf(keyword) > -1}
+  />
+  , mountNode
+);
+```
+:::
+
 ### API
 
 | 参数 | 说明 | 类型 | 默认值 | 是否必填 |
 |------|------|------|--------|--------|
 | data | 选项数据 | array | `[]` | 是 |
-| value | 选中的值，当为tags类型时，可以传入数组 | any | `''` | 否 |
+| value | 默认选中的值，当为tags类型时，可以传入数组 | any | `''` | 否 |
 | index | 选中索引 | any | `''` | 否 |
 | disabled | 禁用组件 | bool | `false` | 否 |
 | placeholder | 默认提示文案 | string | `'请选择'` | 否 |
@@ -310,4 +346,3 @@ ReactDOM.render(
 | open | 是否打开Popup | boolean | `false` | 否 |
 
 `Trigger 可以通过调用 this.props.onChange({...}) 通过改变 Popup 的 props 实现参数传递。`
-

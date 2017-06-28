@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import noop from 'lodash/noop';
+import partial from 'lodash/partial';
 import isBrowser from 'utils/isBrowser';
 import uniqueId from 'lodash/uniqueId';
 
@@ -8,11 +9,13 @@ import Dialog from './Dialog';
 
 const dialogInstanceMap = {};
 
-function addDialogInstance(dialogId, dialog) {
+function ensureUniqDialogInstance(dialogId) {
   if (dialogInstanceMap[dialogId]) {
     throw new Error(`Duplicate dialog id found: ${dialogId}`);
   }
+}
 
+function addDialogInstance(dialogId, dialog) {
   dialogInstanceMap[dialogId] = dialog;
 }
 
@@ -26,10 +29,6 @@ export function closeDialog(dialogId, options = {}) {
   delete dialogInstanceMap[dialogId];
 
   const { onClose, container } = dialog;
-  if (!container) {
-    return;
-  }
-
   const { triggerOnClose = true } = options;
   if (triggerOnClose && onClose) {
     onClose();
@@ -47,8 +46,12 @@ export default function openDialog(options = {}) {
   const {
     onClose: oldOnClose,
     ref,
-    dialogId = uniqueId('__zent-dialog__')
+    dialogId = uniqueId('__zent-dialog__'),
+    parentComponent
   } = options;
+
+  ensureUniqDialogInstance(dialogId);
+
   let container = document.createElement('div');
 
   // 确保多次调用close不会报错
@@ -69,8 +72,12 @@ export default function openDialog(options = {}) {
     delete props.ref;
   }
 
+  const render = parentComponent
+    ? partial(ReactDOM.unstable_renderSubtreeIntoContainer, parentComponent)
+    : ReactDOM.render;
+
   // 不要依赖render的返回值，以后可能行为会改变
-  ReactDOM.render(React.createElement(Dialog, props), container);
+  render(React.createElement(Dialog, props), container);
 
   addDialogInstance(dialogId, {
     onClose: oldOnClose,

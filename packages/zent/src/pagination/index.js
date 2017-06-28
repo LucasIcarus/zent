@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 
 import CorePagination from './modules/CorePagination';
 import Prefix from './modules/Prefix';
 
-const { number, func, string, oneOfType } = PropTypes;
+const { number, func, string } = PropTypes;
 
-export default class Pagination extends Component {
+export default class Pagination extends (PureComponent || Component) {
   static propTypes = {
     className: string,
     prefix: string,
     current: number,
     totalItem: number,
-    maxPageToShow: oneOfType([number, null]),
+    maxPageToShow: number,
     pageSize(conf) {
       let { pageSize } = conf;
 
